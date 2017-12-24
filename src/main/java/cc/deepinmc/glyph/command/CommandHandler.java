@@ -1,6 +1,8 @@
 package cc.deepinmc.glyph.command;
 
+import cc.deepinmc.glyph.command.subcommand.CarveCommand;
 import cc.deepinmc.glyph.command.subcommand.HelpCommand;
+import cc.deepinmc.glyph.command.subcommand.InlayCommand;
 import cc.deepinmc.glyph.manager.LanguageConfigManager;
 import com.google.common.collect.Maps;
 import org.bukkit.Bukkit;
@@ -25,6 +27,8 @@ public class CommandHandler implements CommandExecutor {
      */
     public CommandHandler() {
         registerCommand("help", new HelpCommand());
+        registerCommand("carve", new CarveCommand());
+        registerCommand("inlay", new InlayCommand());
     }
 
     private void registerCommand(String commandName, SubCommand subCommand) {

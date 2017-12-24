@@ -1,6 +1,8 @@
 package cc.deepinmc.glyph.gui;
 
 import cc.deepinmc.glyph.Entry;
+import cc.deepinmc.glyph.manager.LanguageConfigManager;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -28,6 +30,14 @@ public class InlayGUI {
     }
 
     public void open(Player player) {
+        Validate.notNull(player);
+
+        if (player.getItemInHand() == null) {
+            player.sendMessage(LanguageConfigManager.getStringByDefault("player_hand_cannot_be_null", "&c手上不能没有任何物品!", true));
+            return;
+        }
+
+        // 容器填充
         Inventory inventory = Bukkit.createInventory(null, 54, Entry.getInstance().getConfig().getString("gui_option.inlay_GUI.title").replaceAll("&", "§"));
 
         int[] blacks = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 13, 17, 18, 22, 26, 27, 31, 35, 36, 37, 38, 42, 43, 44, 45, 46, 47, 51, 52, 53};

@@ -3,3 +3,4 @@ help:
   - " &6/glyph help &7帮助界面"
 unknown_command: "&c未知指令!"
 permission_denied: "&c权限不足!"
+player_hand_cannot_be_null: "&c手上不能没有任何物品!"

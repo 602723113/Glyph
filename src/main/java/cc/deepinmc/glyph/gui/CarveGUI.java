@@ -1,6 +1,7 @@
 package cc.deepinmc.glyph.gui;
 
 import cc.deepinmc.glyph.Entry;
+import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
@@ -28,6 +29,8 @@ public class CarveGUI {
     }
 
     public void open(Player player) {
+        Validate.notNull(player);
+
         Inventory inventory = Bukkit.createInventory(null, 54, Entry.getInstance().getConfig().getString("gui_option.carve_GUI.title"));
 
         int[] golds = {0, 1, 2, 9, 11, 18, 19, 20};
