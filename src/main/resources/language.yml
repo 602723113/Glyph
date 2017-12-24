@@ -1,0 +1,5 @@
+help:
+  - "&e&l&m一一一一一 &6[&e雕纹 &f&l| &eGlyph&6] &e&l&m一一一一一"
+  - " &6/glyph help &7帮助界面"
+unknown_command: "&c未知指令!"
+permission_denied: "&c权限不足!"

@@ -5,4 +5,7 @@ author: DeepinMC
 commands:
   glyph:
     aliase: [diaowen, dw, dk]
-    description: "main command"
+    description: "Main command"
+permissions:
+  glyph.open
+    default: op

@@ -9,9 +9,8 @@ import java.util.Map;
  * @author Zoyn
  * @since 2017-12-24
  */
-public class GlyphManager {
+public final class GlyphManager {
 
     private Map<String, Glyph> glyphMap = Maps.newHashMap();
-
 
 }
