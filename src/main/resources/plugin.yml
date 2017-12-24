@@ -1,0 +1,8 @@
+name: Glyph
+main: cc.deepinmc.glyph.Entry
+version: 2.0.0
+author: DeepinMC
+commands:
+  glyph:
+    aliase: [diaowen, dw, dk]
+    description: "main command"
