@@ -65,7 +65,7 @@
 
     <build>
         <defaultGoal>clean install</defaultGoal>
-        <finalName>${project.name}-${project.version}</finalName>
+        <finalName>[雕纹]${project.name}-${project.version}</finalName>
         <sourceDirectory>src/main/java</sourceDirectory>
 
         <plugins>

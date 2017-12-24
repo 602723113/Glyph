@@ -5,7 +5,6 @@ import cc.deepinmc.glyph.util.ConfigurationUtils;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -30,6 +29,8 @@ public class Entry extends JavaPlugin {
 
         // register command
         Bukkit.getPluginCommand("glyph").setExecutor(new CommandHandler());
+
+        Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §fPower By DeepinMC, URL: https://github.com/DeepinMC");
     }
 
     public static Entry getInstance() {

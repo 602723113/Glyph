@@ -1,17 +1,18 @@
 package cc.deepinmc.glyph.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author Zoyn
  * @since 2017-12-24
  */
-@Data
 @AllArgsConstructor
-public class Glyph {
+public class Attribute {
 
     private String name;
-    private Attribute attribute;
+    private List<EffectType> effects;
+
 
 }

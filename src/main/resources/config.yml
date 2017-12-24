@@ -1,0 +1,5 @@
+gui_option:
+  inlay_GUI:
+    title: "&6&l雕纹镶嵌界面 &e&l>"
+  carve_GUI:
+    title: "&6&l雕纹雕琢界面 &e&l>"

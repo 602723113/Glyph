@@ -7,5 +7,7 @@ commands:
     aliase: [diaowen, dw, dk]
     description: "Main command"
 permissions:
-  glyph.open
+  glyph.use:
+    default: true
+  glyph.open:
     default: op
