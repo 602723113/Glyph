@@ -48,10 +48,11 @@ public final class ConfigurationUtils {
             Field f = YamlConfiguration.class.getDeclaredField("yamlOptions");
             f.setAccessible(true);
             yamlOptions = new DumperOptions() {
+                @Override
                 public void setAllowUnicode(boolean allowUnicode) {
                     super.setAllowUnicode(false);
                 }
-
+                @Override
                 public void setLineBreak(LineBreak lineBreak) {
                     super.setLineBreak(LineBreak.getPlatformLineBreak());
                 }

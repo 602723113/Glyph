@@ -45,7 +45,7 @@ public class CommandHandler implements CommandExecutor {
             return true;
         }
         if (!commandMap.containsKey(args[0])) {
-            LanguageConfigManager.getStringByDefault("unknown_command", "&c未知指令!", true);
+            sender.sendMessage(LanguageConfigManager.getStringByDefault("unknown_command", "&c未知指令!", true));
             return true;
         }
         // args[0] ---> SubCommand name
