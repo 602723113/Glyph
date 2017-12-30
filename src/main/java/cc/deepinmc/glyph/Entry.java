@@ -6,6 +6,7 @@ import cc.deepinmc.glyph.dto.Glyph;
 import cc.deepinmc.glyph.manager.GlyphManager;
 import cc.deepinmc.glyph.util.ConfigurationUtils;
 import lombok.Getter;
+import lombok.Setter;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -30,6 +31,7 @@ public class Entry extends JavaPlugin {
 
     private static Entry instance;
     @Getter
+    @Setter
     private FileConfiguration languageConfig;
     @Getter
     private File glyphFolder;
@@ -79,7 +81,7 @@ public class Entry extends JavaPlugin {
         return instance;
     }
 
-    private void loadGlyphs() {
+    public void loadGlyphs() {
         File[] files = Validate.notNull(glyphFolder.listFiles());
         Arrays.stream(files).forEach(file -> {
             FileConfiguration fileConfiguration = ConfigurationUtils.loadYml(file);

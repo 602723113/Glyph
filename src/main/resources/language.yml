@@ -6,4 +6,5 @@ help:
   - " &6/glyph carve &7雕纹雕琢界面"
 unknown_command: "&6[&eGlyph&6] &c未知指令!"
 permission_denied: "&6[&eGlyph&6] &c权限不足!"
+reload_success: "&6[&eGlyph&6] &a重载成功!"
 player_hand_cannot_be_null: "&6[&eGlyph&6] &c手上不能没有任何物品!"
