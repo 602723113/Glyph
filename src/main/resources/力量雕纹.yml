@@ -7,11 +7,15 @@ Glyph:
   name: "&a[&6力量雕纹&a]"
   # 雕纹的描述信息(Lore)
   description:
-    - "&a这是一个力量雕纹"
+    - "&f这是一个力量雕纹"
+    - "&f每次伤害会增加1.5点"
   # 设置该雕纹是否可以用 图样 雕刻
   can_use_glyph_pattern: true
   # 图样名
   glyph_pattern: "&a[&6力量雕纹图样&a]"
   # 该雕纹所拥有的效果
-  effects:
-    - STRENGTH
+  attributes:
+    - "STRENGTH:1.5"
+  # 该雕纹可镶嵌的部位
+  equipments:
+    - WEAPON

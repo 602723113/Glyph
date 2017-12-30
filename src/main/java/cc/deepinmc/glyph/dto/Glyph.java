@@ -22,9 +22,10 @@ public class Glyph {
     private int data;
     private String name;
     private List<String> description;
-    private List<EffectType> effects;
+    private List<Attribute> attributes;
     private boolean canUseGlyphPattern;
     private String glyphPattern;
+    private List<EquipmentType> canInlayEquipmentType;
 
     public ItemStack getItemStack() {
         ItemStack is = new ItemStack(material, 1, (short) data);

@@ -2,7 +2,12 @@ Glyph:
   material: 339
   data: 0
   name: "&a[&6吸血雕纹&a]"
+  description:
+    - "&f这是一个吸血雕纹"
+    - "&f攻击时,将会有20%的几率可以吸取3滴血"
   can_use_glyph_pattern: true
   glyph_pattern: "&a[&6吸血雕纹图样&a]"
-  effects:
-    - SUCK_BLOOD
+  attributes:
+    - "SUCK_BLOOD:20:3"
+  equipments:
+    - WEAPON

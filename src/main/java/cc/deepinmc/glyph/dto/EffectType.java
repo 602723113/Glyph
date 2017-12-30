@@ -5,11 +5,14 @@ package cc.deepinmc.glyph.dto;
  * @since 2017-12-24
  */
 public enum EffectType {
-    SUCK_BLOOD("吸血"),
+
+    HIT("命中"),
     CRIT("暴击"),
-    DEFENSE("防御"),
     STRENGTH("力量"),
-    DODGE("闪避");
+    SUCK_BLOOD("吸血"),
+    DODGE("闪避"),
+    DEFENSE("防御"),
+    COUNTER_ATTACK("反击");
 
     private String name;
 

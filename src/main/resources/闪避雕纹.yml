@@ -2,7 +2,15 @@ Glyph:
   material: 339
   data: 0
   name: "&a[&6闪避雕纹&a]"
+  description:
+    - "&f这是一个闪避雕纹"
+    - "&f被攻击时有10%的几率可以闪避本次攻击"
   can_use_glyph_pattern: true
   glyph_pattern: "&a[&6闪避雕纹图样&a]"
-  effects:
-    - DODGE
+  attributes:
+    - "DODGE:10"
+  equipments:
+    - HEAD
+    - CHEST
+    - LEGS
+    - SHOES

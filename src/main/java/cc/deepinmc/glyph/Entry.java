@@ -1,10 +1,13 @@
 package cc.deepinmc.glyph;
 
 import cc.deepinmc.glyph.command.CommandHandler;
+import cc.deepinmc.glyph.dto.Attribute;
 import cc.deepinmc.glyph.dto.EffectType;
+import cc.deepinmc.glyph.dto.EquipmentType;
 import cc.deepinmc.glyph.dto.Glyph;
 import cc.deepinmc.glyph.manager.GlyphManager;
 import cc.deepinmc.glyph.util.ConfigurationUtils;
+import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.commons.lang3.Validate;
@@ -86,6 +89,7 @@ public class Entry extends JavaPlugin {
         Arrays.stream(files).forEach(file -> {
             FileConfiguration fileConfiguration = ConfigurationUtils.loadYml(file);
             String fileName = file.getName();
+
             // var load
             int material = fileConfiguration.getInt("Glyph.material");
             int data = fileConfiguration.getInt("Glyph.data");
@@ -93,10 +97,33 @@ public class Entry extends JavaPlugin {
             List<String> description = fileConfiguration.getStringList("Glyph.description");
             boolean canUseGlyphPattern = fileConfiguration.getBoolean("Glyph.can_use_glyph_pattern");
             String glyphPattern = fileConfiguration.getString("Glyph.glyph_pattern");
-            List<EffectType> effects = fileConfiguration.getStringList("Glyph.effects").stream().map(EffectType::valueOf).collect(Collectors.toList());
+
+            // load attributes
+            List<Attribute> attributes = Lists.newArrayList();
+            fileConfiguration.getStringList("Glyph.attributes")
+                    .forEach(s -> {
+                        Attribute attribute;
+                        String[] split = s.split(":");
+                        switch (split.length) {
+                            case 2:
+                                attribute = new Attribute(EffectType.valueOf(split[0]), Double.valueOf(split[1]));
+                                attributes.add(attribute);
+                            case 3:
+                                attribute = new Attribute(EffectType.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]));
+                                attributes.add(attribute);
+                            default:
+                                break;
+                        }
+                    });
+
+            // load can inlay equipments
+            List<EquipmentType> equipments = fileConfiguration.getStringList("Glyph.equipments").stream()
+                    .map(EquipmentType::valueOf)
+                    .collect(Collectors.toList());
 
             // construct glyph
-            Glyph glyph = new Glyph(Material.getMaterial(material), data, name, description, effects, canUseGlyphPattern, glyphPattern);
+            Glyph glyph = new Glyph(Material.getMaterial(material), data, name, description, attributes, canUseGlyphPattern, glyphPattern, equipments);
+
             // add to manager
             this.glyphManager.addGlyph(fileName.replaceAll(".yml", ""), glyph);
             Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §fLoad glyph " + name + " §fsuccessfully");
