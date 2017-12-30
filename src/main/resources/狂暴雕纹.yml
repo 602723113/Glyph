@@ -1,0 +1,9 @@
+Glyph:
+  material: 339
+  data: 0
+  name: "&a[&6狂暴雕纹&a]"
+  can_use_glyph_pattern: false
+  glyph_pattern: "&a[&6狂暴雕纹图样&a]"
+  effects:
+    - SUCK_BLOOD
+    - CRIT

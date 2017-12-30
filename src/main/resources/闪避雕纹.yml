@@ -1,0 +1,8 @@
+Glyph:
+  material: 339
+  data: 0
+  name: "&a[&6闪避雕纹&a]"
+  can_use_glyph_pattern: true
+  glyph_pattern: "&a[&6闪避雕纹图样&a]"
+  effects:
+    - DODGE

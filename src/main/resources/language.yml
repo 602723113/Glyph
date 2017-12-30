@@ -1,6 +1,9 @@
 help:
   - "&e&l&m一一一一一&r &6[&e雕纹 &f&l| &eGlyph&6] &e&l&m一一一一一"
   - " &6/glyph help &7帮助界面"
+  - " &6/glyph get [名字] &7通过雕纹名字获取雕纹物品"
+  - " &6/glyph inlay &7雕纹雕刻界面"
+  - " &6/glyph carve &7雕纹雕琢界面"
 unknown_command: "&6[&eGlyph&6] &c未知指令!"
 permission_denied: "&6[&eGlyph&6] &c权限不足!"
 player_hand_cannot_be_null: "&6[&eGlyph&6] &c手上不能没有任何物品!"

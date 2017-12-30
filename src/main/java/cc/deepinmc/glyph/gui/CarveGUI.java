@@ -31,7 +31,7 @@ public class CarveGUI {
     public void open(Player player) {
         Validate.notNull(player);
 
-        Inventory inventory = Bukkit.createInventory(null, 54, Entry.getInstance().getConfig().getString("gui_option.carve_GUI.title"));
+        Inventory inventory = Bukkit.createInventory(null, 54, Entry.getInstance().getConfig().getString("gui_option.carve_GUI.title").replaceAll("&", "§"));
 
         int[] golds = {0, 1, 2, 9, 11, 18, 19, 20};
         for (int i : golds) {
@@ -53,6 +53,7 @@ public class CarveGUI {
         for (int i : blacks) {
             inventory.setItem(i, BLACK_GLASS_PANE.getItemStack());
         }
+        inventory.setItem(16, CARVE_BARRIER.getItemStack());
         inventory.setItem(49, CARVE_ANVIL.getItemStack());
 
         player.closeInventory();

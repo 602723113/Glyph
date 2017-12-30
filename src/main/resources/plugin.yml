@@ -4,8 +4,8 @@ version: 2.0.0
 author: DeepinMC
 commands:
   glyph:
-    aliase: [diaowen, dw, dk]
-    description: "Main command"
+    aliases: [diaowen, dw, dk]
+    description: "Glyph's Main command"
 permissions:
   glyph.use:
     default: true

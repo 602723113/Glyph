@@ -1,0 +1,17 @@
+Glyph:
+  # 设置该雕纹的物品ID
+  material: 339
+  # 物品的子ID
+  data: 0
+  # 雕纹名
+  name: "&a[&6力量雕纹&a]"
+  # 雕纹的描述信息(Lore)
+  description:
+    - "&a这是一个力量雕纹"
+  # 设置该雕纹是否可以用 图样 雕刻
+  can_use_glyph_pattern: true
+  # 图样名
+  glyph_pattern: "&a[&6力量雕纹图样&a]"
+  # 该雕纹所拥有的效果
+  effects:
+    - STRENGTH

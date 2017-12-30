@@ -31,10 +31,10 @@ public enum ButtonEnum {
                     "§e§l● §f§l§m                      "
             )
             .build()),
-    CARVE_GOLD_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 4)
+    CARVE_GOLD_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 1)
             .displayName("§6§l请放入金蚕丝")
             .build()),
-    CARVE_GREEN_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 4)
+    CARVE_GREEN_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 5)
             .displayName("§a§l暂时关闭")
             .build()),
     CARVE_YELLOW_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 4)
@@ -42,6 +42,9 @@ public enum ButtonEnum {
             .build()),
     CARVE_RED_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 14)
             .displayName("§3§l点击旁边的铁砧即可进行雕刻")
+            .build()),
+    CARVE_BARRIER(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 14)
+            .displayName("§7§l暂时关闭")
             .build()),
     CARVE_ANVIL(new ItemStackBuilder(Material.getMaterial(145), 1)
             .displayName("§e§l点击进行雕纹雕刻")
