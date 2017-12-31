@@ -1,11 +1,13 @@
 package cc.deepinmc.glyph.manager;
 
+import cc.deepinmc.glyph.dto.EquipmentType;
 import cc.deepinmc.glyph.dto.Glyph;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,6 +19,16 @@ import java.util.Map;
 public final class GlyphManager {
 
     private Map<String, Glyph> glyphMap = Maps.newHashMap();
+
+    public boolean canInlayGlyph(ItemStack itemStack, Glyph glyph) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
+            return false;
+        }
+        int id = itemStack.getTypeId();
+        List<EquipmentType> types = glyph.getCanInlayEquipmentType();
+        // TODO...
+        return false;
+    }
 
     public boolean isGlyph(ItemStack itemStack) {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -52,8 +64,22 @@ public final class GlyphManager {
         if (glyphMap.containsKey(name)) {
             return glyphMap.get(name);
         }
-
         return null;
+    }
+
+    /**
+     * get glyph object by the glyph item's name
+     *
+     * @param name the glyph's name
+     * @return {@link Glyph}
+     */
+    public Glyph getGlyphByItemName(String name) {
+        Validate.notNull(name);
+        return glyphMap.values()
+                .stream()
+                .filter(glyph -> glyph.getName().equals(name))
+                .findFirst()
+                .orElse(null);
     }
 
 }

@@ -1,6 +1,7 @@
 package cc.deepinmc.glyph.gui;
 
 import cc.deepinmc.glyph.Entry;
+import cc.deepinmc.glyph.dto.Glyph;
 import cc.deepinmc.glyph.manager.LanguageConfigManager;
 import cc.deepinmc.glyph.util.PlayerUtils;
 import org.apache.commons.lang3.Validate;
@@ -46,16 +47,17 @@ public class InlayGUI implements IGUI {
         if (event.getRawSlot() == 49) {
             ItemStack handItem = PlayerUtils.getItemInMainHand(player);
 
-            ItemStack glyph = event.getInventory().getItem(24);
-            if (glyph == null) {
+            ItemStack glyphItem = event.getInventory().getItem(24);
+            if (glyphItem == null) {
                 player.sendMessage(LanguageConfigManager.getStringByDefault("carve_gui_glyph_slot_null", "&6[&eGlyph&6] &c请放入雕纹符!", true));
                 return;
             }
-            if (!Entry.getInstance().getGlyphManager().isGlyph(glyph)) {
+            if (!Entry.getInstance().getGlyphManager().isGlyph(glyphItem)) {
                 player.sendMessage(LanguageConfigManager.getStringByDefault("carve_gui_put_wrong_glyph", "&6[&eGlyph&6] &c请放入正确的雕纹符!", true));
                 return;
             }
-            // TODO...
+            Glyph glyph = Entry.getInstance().getGlyphManager().getGlyphByItemName(glyphItem.getItemMeta().getDisplayName());
+
         }
     }
 

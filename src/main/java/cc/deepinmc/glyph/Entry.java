@@ -103,6 +103,7 @@ public class Entry extends JavaPlugin {
             fileConfiguration.getStringList("Glyph.attributes")
                     .forEach(s -> {
                         Attribute attribute;
+                        // split string
                         String[] split = s.split(":");
                         switch (split.length) {
                             case 2:
