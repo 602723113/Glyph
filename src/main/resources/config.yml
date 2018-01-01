@@ -1,3 +1,13 @@
+# 一般选项
+general_option:
+  # 镶嵌设置
+  inlay:
+    # 镶嵌类型
+    # VACANCY_LORE    >> 通过武器上 空缺的Lore 来进行镶嵌
+    # TITLE_LORE >> 通过武器上 Lore的标题 来进行镶嵌
+    type: TITLE_LORE
+      title_lore: "&e&l● &7&l&m    ----    &6&l||&e&l武器雕纹&6&l||&7&l&m    ----    &r &e&l●"
+      vacancy_lore: "&7[可镶嵌-雕纹]"
 # GUI选项
 gui_option:
   # 镶嵌

@@ -4,6 +4,7 @@ import cc.deepinmc.glyph.Entry;
 import cc.deepinmc.glyph.dto.Glyph;
 import cc.deepinmc.glyph.manager.LanguageConfigManager;
 import cc.deepinmc.glyph.util.PlayerUtils;
+import com.google.common.collect.Lists;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -12,6 +13,9 @@ import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.List;
 
 import static cc.deepinmc.glyph.gui.ButtonEnum.*;
 
@@ -95,6 +99,7 @@ public class InlayGUI implements IGUI {
             ItemStack handItem = PlayerUtils.getItemInMainHand(player);
             ItemStack glyphItem = event.getInventory().getItem(24);
 
+            /* check */
             if (glyphItem == null) {
                 player.sendMessage(LanguageConfigManager.getStringByDefault("glyph_slot_null", "&6[&eGlyph&6] &c请放入雕纹符!", true));
                 return;
@@ -108,16 +113,34 @@ public class InlayGUI implements IGUI {
                 player.sendMessage(LanguageConfigManager.getStringByDefault("the_glyph_cannot_be_inlay_in_the_item", "&6[&eGlyph&6] &c该雕纹无法镶嵌在该物品上!", true));
                 return;
             }
-            // TODO...
+
+            /* inlay */
+            ItemMeta itemMeta = handItem.getItemMeta();
+            // not lore
+            if (!handItem.hasItemMeta() | !handItem.getItemMeta().hasLore()) {
+                List<String> lore = Lists.newArrayList();
+                // TODO...
+            } else {
+                List<String> lore = itemMeta.getLore();
+                if (lore.contains(glyph.getLoreName())) {
+                    player.sendMessage(LanguageConfigManager.getStringByDefault("the_equipment_already_has_the_glyph", "&6[&eGlyph&6] &c该装备已经拥有了该雕纹!", true));
+                    return;
+                }
+                // TODO...
+            }
 
             //clear item, avoid bugs when handlingCloseEvent
             event.getInventory().setItem(49, null);
+            player.closeInventory();
         }
     }
 
     @Override
     public void handleCloseEvent(InventoryCloseEvent event) {
-
+        Inventory inventory = event.getInventory();
+        if (inventory.getItem(49) != null) {
+            event.getPlayer().getInventory().addItem(inventory.getItem(49));
+        }
     }
 
 }

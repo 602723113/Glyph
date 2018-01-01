@@ -16,4 +16,5 @@ glyphs_cannot_be_inlay_in_the_glyphs: "&6[&eGlyph&6] &c雕纹不能镶嵌在雕�
 # 以下为GUI界面的相关提示信息
 glyph_slot_null: "&6[&eGlyph&6] &c请放入雕纹!"
 put_wrong_glyph: "&6[&eGlyph&6] &c请放入正确的雕纹!"
+the_equipment_already_has_the_glyph: "&6[&eGlyph&6] &c该装备已经拥有了该雕纹!"
 the_glyph_cannot_be_inlay_in_the_item: "&6[&eGlyph&6] &c该雕纹无法镶嵌在该物品上!"
