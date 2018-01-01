@@ -7,7 +7,9 @@ import cc.deepinmc.glyph.util.PlayerUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,39 +36,16 @@ public class InlayGUI implements IGUI {
     }
 
     @Override
-    public void handleEvent(InventoryClickEvent event) {
-        if (event.getCurrentItem() == null) {
-            return;
-        }
-        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem())) {
-            event.setCancelled(false);
-            return;
-        }
-        Player player = (Player) event.getWhoClicked();
-
-        if (event.getRawSlot() == 49) {
-            ItemStack handItem = PlayerUtils.getItemInMainHand(player);
-
-            ItemStack glyphItem = event.getInventory().getItem(24);
-            if (glyphItem == null) {
-                player.sendMessage(LanguageConfigManager.getStringByDefault("carve_gui_glyph_slot_null", "&6[&eGlyph&6] &c请放入雕纹符!", true));
-                return;
-            }
-            if (!Entry.getInstance().getGlyphManager().isGlyph(glyphItem)) {
-                player.sendMessage(LanguageConfigManager.getStringByDefault("carve_gui_put_wrong_glyph", "&6[&eGlyph&6] &c请放入正确的雕纹符!", true));
-                return;
-            }
-            Glyph glyph = Entry.getInstance().getGlyphManager().getGlyphByItemName(glyphItem.getItemMeta().getDisplayName());
-
-        }
-    }
-
-    @Override
     public void open(Player player) {
         Validate.notNull(player);
 
-        if (player.getItemInHand() == null) {
+        ItemStack itemInHand = PlayerUtils.getItemInMainHand(player);
+        if (itemInHand == null) {
             player.sendMessage(LanguageConfigManager.getStringByDefault("player_hand_cannot_be_null", "&c手上不能没有任何物品!", true));
+            return;
+        }
+        if (Entry.getInstance().getGlyphManager().isGlyph(itemInHand)) {
+            player.sendMessage(LanguageConfigManager.getStringByDefault("glyphs_cannot_be_inlay_in_the_glyphs", "&6[&eGlyph&6] &c雕纹不能镶嵌在雕纹上!", true));
             return;
         }
 
@@ -89,11 +68,56 @@ public class InlayGUI implements IGUI {
         for (int i : blues) {
             inventory.setItem(i, INLAY_BLUE_GLASS_PANE.getItemStack());
         }
-        inventory.setItem(20, player.getItemInHand());
+        inventory.setItem(20, itemInHand);
         inventory.setItem(49, INLAY_AXE.getItemStack());
 
         player.closeInventory();
         player.openInventory(inventory);
+    }
+
+    @Override
+    public void handleClickEvent(InventoryClickEvent event) {
+        if (event.getCurrentItem() == null) {
+            return;
+        }
+        // let the glyph can be move
+        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem()) || Entry.getInstance().getGlyphManager().isGlyph(event.getCursor())) {
+            event.setCancelled(false);
+            return;
+        }
+        // prevent bug
+        if (event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) {
+            event.setCancelled(true);
+            return;
+        }
+        Player player = (Player) event.getWhoClicked();
+        if (event.getRawSlot() == 49) {
+            ItemStack handItem = PlayerUtils.getItemInMainHand(player);
+            ItemStack glyphItem = event.getInventory().getItem(24);
+
+            if (glyphItem == null) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("glyph_slot_null", "&6[&eGlyph&6] &c请放入雕纹符!", true));
+                return;
+            }
+            if (!Entry.getInstance().getGlyphManager().isGlyph(glyphItem)) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("put_wrong_glyph", "&6[&eGlyph&6] &c请放入正确的雕纹符!", true));
+                return;
+            }
+            Glyph glyph = Entry.getInstance().getGlyphManager().getGlyphByItemName(glyphItem.getItemMeta().getDisplayName());
+            if (!Entry.getInstance().getGlyphManager().canInlayGlyph(handItem, glyph)) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("the_glyph_cannot_be_inlay_in_the_item", "&6[&eGlyph&6] &c该雕纹无法镶嵌在该物品上!", true));
+                return;
+            }
+            // TODO...
+
+            //clear item, avoid bugs when handlingCloseEvent
+            event.getInventory().setItem(49, null);
+        }
+    }
+
+    @Override
+    public void handleCloseEvent(InventoryCloseEvent event) {
+
     }
 
 }

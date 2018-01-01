@@ -21,8 +21,10 @@ public class Glyph {
     private Material material;
     private int data;
     private String name;
+    private String displayName;
+    private String loreName;
     private List<String> description;
-    private List<Attribute> attributes;
+    private List<GlyphAttribute> glyphAttributes;
     private boolean canUseGlyphPattern;
     private String glyphPattern;
     private List<EquipmentType> canInlayEquipmentType;
@@ -30,7 +32,7 @@ public class Glyph {
     public ItemStack getItemStack() {
         ItemStack is = new ItemStack(material, 1, (short) data);
         ItemMeta im = is.getItemMeta();
-        im.setDisplayName(name.replaceAll("&", "§"));
+        im.setDisplayName(displayName.replaceAll("&", "§"));
 
         List<String> translated = description.stream()
                 .map(s -> ChatColor.translateAlternateColorCodes('&', s))

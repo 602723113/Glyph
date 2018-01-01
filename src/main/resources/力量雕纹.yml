@@ -3,8 +3,12 @@ Glyph:
   material: 339
   # 物品的子ID
   data: 0
-  # 雕纹名
-  name: "&a[&6力量雕纹&a]"
+  # 雕纹名(只起到标记的作用), 建议和yml的命名一致, 使用/glyph get [雕纹名]时需填入此处的 name
+  name: "力量雕纹"
+  # 雕纹获取为物品后的展示名
+  display_name: "&a[&6力量雕纹&a]"
+  # 雕纹展示在lore的名字, 用于识别
+  lore_name: "&a[&6力量雕纹&a] - 增加1.5点力量"
   # 雕纹的描述信息(Lore)
   description:
     - "&f这是一个力量雕纹"

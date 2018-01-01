@@ -19,9 +19,9 @@ public class InlayCommand implements SubCommand {
             return;
         }
         if (!sender.hasPermission("glyph.open")) {
-            sender.sendMessage(LanguageConfigManager.getStringByDefault("permission_denied", "&c权限不足!", true));
+            sender.sendMessage(LanguageConfigManager.getStringByDefault("permission_denied", "&6[&eGlyph&6] &c权限不足!", true));
+            return;
         }
-
         Player player = (Player) sender;
         InlayGUI.getInstance().open(player);
     }

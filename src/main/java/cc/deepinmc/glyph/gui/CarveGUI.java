@@ -7,6 +7,7 @@ import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -30,40 +31,6 @@ public class CarveGUI implements IGUI {
             instance = new CarveGUI();
         }
         return instance;
-    }
-
-    /**
-     * to handle a inventory click event
-     *
-     * @param event inventory click event object
-     * @see PlayerUtils#getItemInMainHand(Player)
-     */
-    @Override
-    public void handleEvent(InventoryClickEvent event) {
-        if (event.getCurrentItem() == null) {
-            return;
-        }
-        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem())) {
-            event.setCancelled(false);
-            return;
-        }
-        Player player = (Player) event.getWhoClicked();
-
-        if (event.getRawSlot() == 49) {
-            ItemStack handItem = PlayerUtils.getItemInMainHand(player);
-
-            ItemStack glyph = event.getInventory().getItem(24);
-            if (glyph == null) {
-                player.sendMessage(LanguageConfigManager.getStringByDefault("carve_gui_glyph_slot_null", "&6[&eGlyph&6] &c请放入雕纹符!", true));
-                return;
-            }
-            if (!Entry.getInstance().getGlyphManager().isGlyph(glyph)) {
-                player.sendMessage(LanguageConfigManager.getStringByDefault("carve_gui_put_wrong_glyph", "&6[&eGlyph&6] &c请放入正确的雕纹符!", true));
-                return;
-            }
-            // TODO...
-        }
-
     }
 
     @Override
@@ -97,6 +64,44 @@ public class CarveGUI implements IGUI {
 
         player.closeInventory();
         player.openInventory(inventory);
+    }
+
+    /**
+     * to handle a inventory click event
+     *
+     * @param event inventory click event object
+     * @see PlayerUtils#getItemInMainHand(Player)
+     */
+    @Override
+    public void handleClickEvent(InventoryClickEvent event) {
+        if (event.getCurrentItem() == null) {
+            return;
+        }
+        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem())) {
+            event.setCancelled(false);
+            return;
+        }
+        Player player = (Player) event.getWhoClicked();
+
+        if (event.getRawSlot() == 49) {
+            ItemStack handItem = PlayerUtils.getItemInMainHand(player);
+
+            ItemStack glyph = event.getInventory().getItem(24);
+            if (glyph == null) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("glyph_slot_null", "&6[&eGlyph&6] &c请放入雕纹符!", true));
+                return;
+            }
+            if (!Entry.getInstance().getGlyphManager().isGlyph(glyph)) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("put_wrong_glyph", "&6[&eGlyph&6] &c请放入正确的雕纹符!", true));
+                return;
+            }
+            // TODO...
+        }
+    }
+
+    @Override
+    public void handleCloseEvent(InventoryCloseEvent event) {
+
     }
 
 }

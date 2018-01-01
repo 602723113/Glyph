@@ -1,5 +1,6 @@
 package cc.deepinmc.glyph.manager;
 
+import cc.deepinmc.glyph.Entry;
 import cc.deepinmc.glyph.dto.EquipmentType;
 import cc.deepinmc.glyph.dto.Glyph;
 import com.google.common.collect.Maps;
@@ -24,9 +25,28 @@ public final class GlyphManager {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
             return false;
         }
-        int id = itemStack.getTypeId();
         List<EquipmentType> types = glyph.getCanInlayEquipmentType();
-        // TODO...
+
+        for (EquipmentType type : types) {
+            List<String> list = Entry.getInstance().getConfig().getStringList("weapon_option.type." + type.toString());
+            for (String temp : list) {
+                // the temp will be like this  12:1
+                String[] idAndData = temp.split(":");
+                // get id and data
+                int id = Integer.parseInt(idAndData[0]);
+                // check when the damage data is *
+                if (idAndData[1].equals("*")) {
+                    if (itemStack.getTypeId() == id) {
+                        return true;
+                    }
+                }
+                int data = Integer.parseInt(idAndData[1]);
+                if (itemStack.getTypeId() == id && itemStack.getDurability() == data) {
+                    return true;
+                }
+            }
+        }
+
         return false;
     }
 
@@ -40,7 +60,7 @@ public final class GlyphManager {
 
         return glyphMap.values()
                 .stream()
-                .anyMatch(glyph -> glyph.getName().equals(itemStack.getItemMeta().getDisplayName()));
+                .anyMatch(glyph -> glyph.getDisplayName().equals(itemStack.getItemMeta().getDisplayName()));
     }
 
     public void addGlyph(String name, Glyph glyph) {
@@ -51,6 +71,10 @@ public final class GlyphManager {
         if (glyphMap.containsKey(name)) {
             glyphMap.remove(name);
         }
+    }
+
+    public void clearGlyph() {
+        glyphMap.clear();
     }
 
     /**
@@ -77,7 +101,7 @@ public final class GlyphManager {
         Validate.notNull(name);
         return glyphMap.values()
                 .stream()
-                .filter(glyph -> glyph.getName().equals(name))
+                .filter(glyph -> glyph.getDisplayName().equals(name))
                 .findFirst()
                 .orElse(null);
     }

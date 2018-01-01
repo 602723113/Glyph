@@ -1,7 +1,9 @@
 Glyph:
   material: 339
   data: 0
-  name: "&a[&6狂暴雕纹&a]"
+  name: "狂暴雕纹"
+  display_name: "&a[&6狂暴雕纹&a]"
+  lore_name: "&a[&6狂暴雕纹&a] &f- &7有5%的几率吸取3滴血, 并给对方暴击3点伤害"
   description:
     - "&f这是一个狂暴雕纹"
     - "&f攻击时有几率进入狂暴状态"

@@ -1,10 +1,11 @@
 package cc.deepinmc.glyph;
 
 import cc.deepinmc.glyph.command.CommandHandler;
-import cc.deepinmc.glyph.dto.Attribute;
 import cc.deepinmc.glyph.dto.EffectType;
 import cc.deepinmc.glyph.dto.EquipmentType;
 import cc.deepinmc.glyph.dto.Glyph;
+import cc.deepinmc.glyph.dto.GlyphAttribute;
+import cc.deepinmc.glyph.listener.GUIListener;
 import cc.deepinmc.glyph.manager.GlyphManager;
 import cc.deepinmc.glyph.util.ConfigurationUtils;
 import com.google.common.collect.Lists;
@@ -67,9 +68,11 @@ public class Entry extends JavaPlugin {
 
         // register command
         Bukkit.getPluginCommand("glyph").setExecutor(new CommandHandler());
+        // register listener
+        Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
+
         // initial glyph manager
         glyphManager = new GlyphManager();
-
         loadGlyphs();
 
         Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §fPower By DeepinMC, URL: https://github.com/DeepinMC");
@@ -94,24 +97,26 @@ public class Entry extends JavaPlugin {
             int material = fileConfiguration.getInt("Glyph.material");
             int data = fileConfiguration.getInt("Glyph.data");
             String name = fileConfiguration.getString("Glyph.name").replaceAll("&", "§");
+            String displayName = fileConfiguration.getString("Glyph.display_name").replaceAll("&", "§");
+            String loreName = fileConfiguration.getString("Glyph.lore_name").replaceAll("&", "§");
             List<String> description = fileConfiguration.getStringList("Glyph.description");
             boolean canUseGlyphPattern = fileConfiguration.getBoolean("Glyph.can_use_glyph_pattern");
             String glyphPattern = fileConfiguration.getString("Glyph.glyph_pattern");
 
-            // load attributes
-            List<Attribute> attributes = Lists.newArrayList();
-            fileConfiguration.getStringList("Glyph.attributes")
+            // load glyphAttributes
+            List<GlyphAttribute> glyphAttributes = Lists.newArrayList();
+            fileConfiguration.getStringList("Glyph.glyphAttributes")
                     .forEach(s -> {
-                        Attribute attribute;
+                        GlyphAttribute glyphAttribute;
                         // split string
                         String[] split = s.split(":");
                         switch (split.length) {
                             case 2:
-                                attribute = new Attribute(EffectType.valueOf(split[0]), Double.valueOf(split[1]));
-                                attributes.add(attribute);
+                                glyphAttribute = new GlyphAttribute(EffectType.valueOf(split[0]), Double.valueOf(split[1]));
+                                glyphAttributes.add(glyphAttribute);
                             case 3:
-                                attribute = new Attribute(EffectType.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]));
-                                attributes.add(attribute);
+                                glyphAttribute = new GlyphAttribute(EffectType.valueOf(split[0]), Double.valueOf(split[1]), Double.valueOf(split[2]));
+                                glyphAttributes.add(glyphAttribute);
                             default:
                                 break;
                         }
@@ -123,11 +128,11 @@ public class Entry extends JavaPlugin {
                     .collect(Collectors.toList());
 
             // construct glyph
-            Glyph glyph = new Glyph(Material.getMaterial(material), data, name, description, attributes, canUseGlyphPattern, glyphPattern, equipments);
+            Glyph glyph = new Glyph(Material.getMaterial(material), data, name, displayName, loreName, description, glyphAttributes, canUseGlyphPattern, glyphPattern, equipments);
 
             // add to manager
-            this.glyphManager.addGlyph(fileName.replaceAll(".yml", ""), glyph);
-            Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §fLoad glyph " + name + " §fsuccessfully");
+            this.glyphManager.addGlyph(name, glyph);
+            Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §fLoad glyph " + name + "§f successfully");
         });
     }
 

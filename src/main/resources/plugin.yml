@@ -6,8 +6,8 @@ commands:
   glyph:
     aliases: [diaowen, dw, dk]
     description: "Glyph's Main command"
-permissions:
-  glyph.use:
-    default: true
+permission:
+  glyph.get:
+    default: op
   glyph.open:
     default: op

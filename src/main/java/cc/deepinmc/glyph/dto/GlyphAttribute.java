@@ -9,13 +9,13 @@ import lombok.Data;
  */
 @Data
 @AllArgsConstructor
-public class Attribute {
+public class GlyphAttribute {
 
     private EffectType type;
     private double odds = 100;
     private double value;
 
-    public Attribute(EffectType type, double value) {
+    public GlyphAttribute(EffectType type, double value) {
         this.type = type;
         this.value = value;
     }
