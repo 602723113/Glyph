@@ -9,8 +9,8 @@ import lombok.Getter;
  */
 public enum InlayType {
 
-    TITLE_LORE(Entry.getInstance().getConfig().getString("general_option.inlay.type.title_lore")),
-    VACANCY_LORE(Entry.getInstance().getConfig().getString("general_option.inlay.type.vacancy_lore"));
+    TITLE_LORE(Entry.getInstance().getConfig().getString("general_option.inlay.lore.title_lore").replaceAll("&", "§")),
+    VACANCY_LORE(Entry.getInstance().getConfig().getString("general_option.inlay.lore.vacancy_lore").replaceAll("&", "§"));
 
     @Getter
     private String placeHolder;

@@ -1,10 +1,7 @@
 package cc.deepinmc.glyph;
 
 import cc.deepinmc.glyph.command.CommandHandler;
-import cc.deepinmc.glyph.dto.EffectType;
-import cc.deepinmc.glyph.dto.EquipmentType;
-import cc.deepinmc.glyph.dto.Glyph;
-import cc.deepinmc.glyph.dto.GlyphAttribute;
+import cc.deepinmc.glyph.dto.*;
 import cc.deepinmc.glyph.listener.GUIListener;
 import cc.deepinmc.glyph.manager.GlyphManager;
 import cc.deepinmc.glyph.util.ConfigurationUtils;
@@ -41,11 +38,14 @@ public class Entry extends JavaPlugin {
     private File glyphFolder;
     @Getter
     private GlyphManager glyphManager;
+    @Getter
+    private InlayType inlayType;
 
     @Override
     public void onEnable() {
         instance = this;
 
+        // config
         saveDefaultConfig();
         File languageFile = new File(getDataFolder(), "language.yml");
         if (!languageFile.exists()) {
@@ -65,6 +65,7 @@ public class Entry extends JavaPlugin {
                 Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §cAn error occurred while saving the default glyph");
             }
         }
+        inlayType = InlayType.valueOf(getConfig().getString("general_option.inlay.type"));
 
         // register command
         Bukkit.getPluginCommand("glyph").setExecutor(new CommandHandler());
@@ -91,7 +92,6 @@ public class Entry extends JavaPlugin {
         File[] files = Validate.notNull(glyphFolder.listFiles());
         Arrays.stream(files).forEach(file -> {
             FileConfiguration fileConfiguration = ConfigurationUtils.loadYml(file);
-            String fileName = file.getName();
 
             // var load
             int material = fileConfiguration.getInt("Glyph.material");

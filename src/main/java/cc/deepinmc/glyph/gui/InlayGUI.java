@@ -2,6 +2,7 @@ package cc.deepinmc.glyph.gui;
 
 import cc.deepinmc.glyph.Entry;
 import cc.deepinmc.glyph.dto.Glyph;
+import cc.deepinmc.glyph.dto.InlayType;
 import cc.deepinmc.glyph.manager.LanguageConfigManager;
 import cc.deepinmc.glyph.util.PlayerUtils;
 import com.google.common.collect.Lists;
@@ -116,21 +117,61 @@ public class InlayGUI implements IGUI {
 
             /* inlay */
             ItemMeta itemMeta = handItem.getItemMeta();
-            // not lore
-            if (!handItem.hasItemMeta() | !handItem.getItemMeta().hasLore()) {
-                List<String> lore = Lists.newArrayList();
-                // TODO...
-            } else {
-                List<String> lore = itemMeta.getLore();
+            InlayType inlayType = Entry.getInstance().getInlayType();
+            List<String> lore;
+
+            // lore check
+            if (!handItem.hasItemMeta() || !handItem.getItemMeta().hasLore()) { // Don't has lore
+                lore = Lists.newArrayList();
+                if (inlayType.equals(InlayType.TITLE_LORE)) {
+                    lore.add(inlayType.getPlaceHolder());
+                    lore.add(glyph.getLoreName().replaceAll("&", "§"));
+                }
+                if (inlayType.equals(InlayType.VACANCY_LORE)) {
+                    player.sendMessage(LanguageConfigManager.getStringByDefault("the_equipment_dont_have_enough_vacancy", "&6[&eGlyph&6] &c该装备没有更多的雕纹槽了!", true));
+                    return;
+                }
+            } else { // has lore
+                lore = itemMeta.getLore();
                 if (lore.contains(glyph.getLoreName())) {
                     player.sendMessage(LanguageConfigManager.getStringByDefault("the_equipment_already_has_the_glyph", "&6[&eGlyph&6] &c该装备已经拥有了该雕纹!", true));
                     return;
                 }
-                // TODO...
-            }
 
-            //clear item, avoid bugs when handlingCloseEvent
-            event.getInventory().setItem(49, null);
+                /* check inlay type */
+                if (inlayType.equals(InlayType.TITLE_LORE)) {
+                    if (lore.contains(inlayType.getPlaceHolder())) { // when has title
+                        for (int i = 0; i < lore.size(); i++) {
+                            if (lore.get(i).equals(inlayType.getPlaceHolder())) {
+                                lore.add(i + 1, glyph.getLoreName());
+                                break;
+                            }
+                        }
+                    } else {
+                        lore.add(inlayType.getPlaceHolder());
+                        lore.add(glyph.getLoreName().replaceAll("&", "§"));
+                    }
+                }
+
+                if (inlayType.equals(InlayType.VACANCY_LORE)) {
+                    if (lore.contains(inlayType.getPlaceHolder())) {
+                        for (int i = 0; i < lore.size(); i++) {
+                            if (lore.get(i).equals(inlayType.getPlaceHolder())) {
+                                lore.set(i, glyph.getLoreName());
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            // save meta
+            itemMeta.setLore(lore);
+            handItem.setItemMeta(itemMeta);
+
+            player.sendMessage(LanguageConfigManager.getStringByDefault("inlay_success", "&6[&eGlyph&6] &a镶嵌成功!", true));
+
+            // clear item, avoid bugs when handlingCloseEvent
+            event.getInventory().setItem(24, null);
             player.closeInventory();
         }
     }
@@ -138,8 +179,8 @@ public class InlayGUI implements IGUI {
     @Override
     public void handleCloseEvent(InventoryCloseEvent event) {
         Inventory inventory = event.getInventory();
-        if (inventory.getItem(49) != null) {
-            event.getPlayer().getInventory().addItem(inventory.getItem(49));
+        if (inventory.getItem(24) != null) {
+            event.getPlayer().getInventory().addItem(inventory.getItem(24));
         }
     }
 
