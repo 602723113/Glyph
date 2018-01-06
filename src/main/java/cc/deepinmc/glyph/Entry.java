@@ -30,6 +30,11 @@ import java.util.stream.Collectors;
  */
 public class Entry extends JavaPlugin {
 
+    @SuppressWarnings("unused")
+    private static final String INFORMATION = "You do not have to decompile the plugin to get the source code, this plugin has hosted the source code to Github, URL: https://github.com/DeepinMC/Glyph";
+    @SuppressWarnings("unused")
+    private static final String INFORMATION_CN = "你不必反编译本插件来获取源码, 本插件已将源码托管到Github, URL: https://github.com/DeepinMC/Glyph";
+
     private static Entry instance;
     @Getter
     @Setter
@@ -101,6 +106,8 @@ public class Entry extends JavaPlugin {
             String loreName = fileConfiguration.getString("Glyph.lore_name").replaceAll("&", "§");
             List<String> description = fileConfiguration.getStringList("Glyph.description");
             boolean canUseGlyphPattern = fileConfiguration.getBoolean("Glyph.can_use_glyph_pattern");
+            String carveMaterial = fileConfiguration.getString("Glyph.carve_material");
+            int carveMaterialAmount = fileConfiguration.getInt("Glyph.carve_material_amount");
             String glyphPattern = fileConfiguration.getString("Glyph.glyph_pattern");
 
             // load glyphAttributes
@@ -128,10 +135,11 @@ public class Entry extends JavaPlugin {
                     .collect(Collectors.toList());
 
             // construct glyph
-            Glyph glyph = new Glyph(Material.getMaterial(material), data, name, displayName, loreName, description, glyphAttributes, canUseGlyphPattern, glyphPattern, equipments);
+            Glyph glyph = new Glyph(Material.getMaterial(material), data, name, displayName, loreName, description, glyphAttributes, canUseGlyphPattern, carveMaterial, carveMaterialAmount, glyphPattern, equipments);
 
             // add to manager
             this.glyphManager.addGlyph(name, glyph);
+            this.glyphManager.addPattern(glyphPattern, glyph);
             Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §fLoad glyph " + name + "§f successfully");
         });
     }

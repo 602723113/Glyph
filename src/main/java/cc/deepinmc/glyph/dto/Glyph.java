@@ -26,6 +26,13 @@ public class Glyph {
     private List<String> description;
     private List<GlyphAttribute> glyphAttributes;
     private boolean canUseGlyphPattern;
+    /**
+     * 雕刻所需要的材料名
+     * <p>
+     * Materials needed for carving
+     */
+    private String carveMaterial;
+    private int carveMaterialAmount;
     private String glyphPattern;
     private List<EquipmentType> canInlayEquipmentType;
 

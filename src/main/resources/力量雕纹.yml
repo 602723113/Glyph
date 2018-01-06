@@ -8,14 +8,18 @@ Glyph:
   # 雕纹获取为物品后的展示名
   display_name: "&a[&6力量雕纹&a]"
   # 雕纹展示在lore的名字, 用于识别
-  lore_name: "&a[&6力量雕纹&a] - 增加1.5点力量"
+  lore_name: "&a[&6力量雕纹&a] &f- &7增加1.5点力量"
   # 雕纹的描述信息(Lore)
   description:
     - "&f这是一个力量雕纹"
     - "&f每次伤害会增加1.5点"
   # 设置该雕纹是否可以用 图样 雕刻
   can_use_glyph_pattern: true
-  # 图样名
+  # 雕刻所需要的材料名
+  carve_material: "&a[&6上品 &7- &6金蚕丝&a]"
+  # 雕刻所需要的材料的数量
+  carve_material_amount: 10
+  # 雕刻所需要的图样名
   glyph_pattern: "&a[&6力量雕纹图样&a]"
   # 该雕纹所拥有的效果
   attributes:

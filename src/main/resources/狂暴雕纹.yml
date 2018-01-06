@@ -11,6 +11,8 @@ Glyph:
     - "&f5%的几率可以吸取3滴血"
     - "&f5%的几率可以给对方暴击3点伤害"
   can_use_glyph_pattern: false
+  carve_material: "&a[&6极品 &7- &6金蚕丝&a]"
+  carve_material_amount: 20
   glyph_pattern: "&a[&6狂暴雕纹图样&a]"
   attributes:
     - "SUCK_BLOOD:5:3"

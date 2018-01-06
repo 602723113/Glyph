@@ -8,6 +8,7 @@ import cc.deepinmc.glyph.util.PlayerUtils;
 import com.google.common.collect.Lists;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -45,8 +46,8 @@ public class InlayGUI implements IGUI {
         Validate.notNull(player);
 
         ItemStack itemInHand = PlayerUtils.getItemInMainHand(player);
-        if (itemInHand == null) {
-            player.sendMessage(LanguageConfigManager.getStringByDefault("player_hand_cannot_be_null", "&c手上不能没有任何物品!", true));
+        if (Validate.notNull(itemInHand).getType() == Material.AIR) {
+            player.sendMessage(LanguageConfigManager.getStringByDefault("player_hand_cannot_be_null", "&6[&eGlyph&6] &c手上不能没有任何物品!", true));
             return;
         }
         if (Entry.getInstance().getGlyphManager().isGlyph(itemInHand)) {
@@ -85,14 +86,15 @@ public class InlayGUI implements IGUI {
         if (event.getCurrentItem() == null) {
             return;
         }
-        // let the glyph can be move
-        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem()) || Entry.getInstance().getGlyphManager().isGlyph(event.getCursor())) {
-            event.setCancelled(false);
-            return;
-        }
         // prevent bug
         if (event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) {
             event.setCancelled(true);
+            return;
+        }
+        // let the glyph can be move
+        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem()) ||
+                Entry.getInstance().getGlyphManager().isGlyph(event.getCursor())) {
+            event.setCancelled(false);
             return;
         }
         Player player = (Player) event.getWhoClicked();
@@ -169,6 +171,12 @@ public class InlayGUI implements IGUI {
             handItem.setItemMeta(itemMeta);
 
             player.sendMessage(LanguageConfigManager.getStringByDefault("inlay_success", "&6[&eGlyph&6] &a镶嵌成功!", true));
+
+            // check glyph amount
+            if (glyphItem.getAmount() > 1) {
+                glyphItem.setAmount(glyphItem.getAmount() - 1);
+                player.getInventory().addItem(glyphItem);
+            }
 
             // clear item, avoid bugs when handlingCloseEvent
             event.getInventory().setItem(24, null);

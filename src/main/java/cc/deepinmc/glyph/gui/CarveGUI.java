@@ -1,11 +1,11 @@
 package cc.deepinmc.glyph.gui;
 
 import cc.deepinmc.glyph.Entry;
-import cc.deepinmc.glyph.manager.LanguageConfigManager;
 import cc.deepinmc.glyph.util.PlayerUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
@@ -77,31 +77,34 @@ public class CarveGUI implements IGUI {
         if (event.getCurrentItem() == null) {
             return;
         }
-        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem())) {
+        // prevent bug
+        if (event.getAction().equals(InventoryAction.SWAP_WITH_CURSOR)) {
+            event.setCancelled(true);
+            return;
+        }
+        // let the glyph can be move
+        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem()) ||
+                Entry.getInstance().getGlyphManager().isGlyph(event.getCursor())) {
             event.setCancelled(false);
             return;
         }
         Player player = (Player) event.getWhoClicked();
-
         if (event.getRawSlot() == 49) {
-            ItemStack handItem = PlayerUtils.getItemInMainHand(player);
+            ItemStack materialItem = event.getInventory().getItem(10);
+            ItemStack patternItem = event.getInventory().getItem(13);
 
-            ItemStack glyph = event.getInventory().getItem(24);
-            if (glyph == null) {
-                player.sendMessage(LanguageConfigManager.getStringByDefault("glyph_slot_null", "&6[&eGlyph&6] &c请放入雕纹符!", true));
-                return;
-            }
-            if (!Entry.getInstance().getGlyphManager().isGlyph(glyph)) {
-                player.sendMessage(LanguageConfigManager.getStringByDefault("put_wrong_glyph", "&6[&eGlyph&6] &c请放入正确的雕纹符!", true));
-                return;
-            }
-            // TODO...
         }
     }
 
     @Override
     public void handleCloseEvent(InventoryCloseEvent event) {
-
+        Inventory inventory = event.getInventory();
+        if (inventory.getItem(10) != null) {
+            event.getPlayer().getInventory().addItem(inventory.getItem(10));
+        }
+        if (inventory.getItem(13) != null) {
+            event.getPlayer().getInventory().addItem(inventory.getItem(13));
+        }
     }
 
 }

@@ -20,6 +20,40 @@ import java.util.Map;
 public final class GlyphManager {
 
     private Map<String, Glyph> glyphMap = Maps.newHashMap();
+    private Map<String, Glyph> patternMap = Maps.newHashMap();
+
+    public boolean isPattern(ItemStack itemStack) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
+            return false;
+        }
+        if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
+            return false;
+        }
+
+        return patternMap.keySet()
+                .stream()
+                .anyMatch(s -> s.equals(itemStack.getItemMeta().getDisplayName()));
+    }
+
+    /**
+     * 获取图样所对应的雕纹, 如果无法获取则返回null
+     * <p>
+     * get the glyph corresponding to the pattern, or null if it is not available
+     *
+     * @param pattern the pattern
+     * @return {@link Glyph}
+     */
+    public Glyph getPatternGlyph(String pattern) {
+        return patternMap.getOrDefault(pattern, null);
+    }
+
+    public Glyph getPatternGlyphByGlyphCache(String pattern) {
+        return glyphMap.values()
+                .stream()
+                .filter(glyph -> glyph.getGlyphPattern().equals(pattern))
+                .findFirst()
+                .orElse(null);
+    }
 
     public boolean canInlayGlyph(ItemStack itemStack, Glyph glyph) {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
@@ -77,6 +111,14 @@ public final class GlyphManager {
         glyphMap.clear();
     }
 
+    public void addPattern(String pattern, Glyph glyph) {
+        patternMap.put(Validate.notNull(pattern), Validate.notNull(glyph));
+    }
+
+    public void clearPattern() {
+        patternMap.clear();
+    }
+
     /**
      * get glyph object by the glyph's name
      *
@@ -84,11 +126,7 @@ public final class GlyphManager {
      * @return {@link Glyph}
      */
     public Glyph getGlyphByName(String name) {
-        Validate.notNull(name);
-        if (glyphMap.containsKey(name)) {
-            return glyphMap.get(name);
-        }
-        return null;
+        return glyphMap.getOrDefault(Validate.notNull(name), null);
     }
 
     /**
