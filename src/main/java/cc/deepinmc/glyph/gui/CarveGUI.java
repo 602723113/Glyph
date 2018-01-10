@@ -1,6 +1,8 @@
 package cc.deepinmc.glyph.gui;
 
 import cc.deepinmc.glyph.Entry;
+import cc.deepinmc.glyph.dto.Glyph;
+import cc.deepinmc.glyph.manager.LanguageConfigManager;
 import cc.deepinmc.glyph.util.PlayerUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Bukkit;
@@ -93,6 +95,56 @@ public class CarveGUI implements IGUI {
             ItemStack materialItem = event.getInventory().getItem(10);
             ItemStack patternItem = event.getInventory().getItem(13);
 
+            // null check
+            if (materialItem == null) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("material_slot_null", "&6[&eGlyph&6] &c请放入材料!", true));
+                return;
+            }
+            if (patternItem == null) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("pattern_slot_null", "&6[&eGlyph&6] &c请放入图样!", true));
+                return;
+            }
+
+            // is right item?
+            if (Entry.getInstance().getGlyphManager().isMaterial(materialItem)) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("put_wrong_material", "&6[&eGlyph&6] &c请放入正确的材料!", true));
+                return;
+            }
+
+            if (Entry.getInstance().getGlyphManager().isPattern(patternItem)) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("put_wrong_pattern", "&6[&eGlyph&6] &c请放入正确的图样!", true));
+                return;
+            }
+
+            // the glyph
+            Glyph glyph = Entry.getInstance().getGlyphManager().getPatternGlyphByItemName(patternItem.getItemMeta().getDisplayName());
+            if (glyph == null) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("something_wrong", "&6[&eGlyph&6] &c出现了内部错误!", true));
+                return;
+            }
+
+            if (materialItem.getAmount() < glyph.getCarveMaterialAmount()) {
+                player.sendMessage(LanguageConfigManager.getStringByDefault("insufficient_amount_of_material", "&6[&eGlyph&6] &c材料数量不足!", true));
+                return;
+            }
+
+            ItemStack glyphItem = glyph.getItemStack();
+            // calculate the number of items
+            if (materialItem.getAmount() > glyph.getCarveMaterialAmount()) {
+                materialItem.setAmount(materialItem.getAmount() - glyph.getCarveMaterialAmount());
+                player.getInventory().addItem(materialItem);
+            }
+            if (patternItem.getAmount() > 1) {
+                patternItem.setAmount(patternItem.getAmount() - 1);
+                player.getInventory().addItem(patternItem);
+            }
+            player.getInventory().addItem(glyphItem);
+            player.sendMessage(LanguageConfigManager.getStringByDefault("carve_success", "&6[&eGlyph&6] &a雕刻成功!", true));
+
+            // clear item, avoid bugs when handlingCloseEvent
+            event.getInventory().setItem(10, null);
+            event.getInventory().setItem(13, null);
+            player.closeInventory();
         }
     }
 

@@ -32,7 +32,7 @@ public enum ButtonEnum {
             )
             .build()),
     CARVE_GOLD_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 1)
-            .displayName("§6§l请放入金蚕丝")
+            .displayName("§6§l请放入材料")
             .build()),
     CARVE_GREEN_GLASS_PANE(new ItemStackBuilder(Material.getMaterial(160), 1, (short) 5)
             .displayName("§a§l暂时关闭")

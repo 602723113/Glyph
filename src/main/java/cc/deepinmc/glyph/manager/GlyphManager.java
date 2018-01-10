@@ -176,7 +176,7 @@ public final class GlyphManager {
     }
 
 
-    public Glyph getPatternGlyphByGlyphCache(String pattern) {
+    public Glyph getPatternGlyphByItemName(String pattern) {
         return glyphMap.values()
                 .stream()
                 .filter(glyph -> glyph.getGlyphPattern().equals(pattern))
