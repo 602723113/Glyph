@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 public class Entry extends JavaPlugin {
 
     @SuppressWarnings("unused")
-    private static final String INFORMATION = "You do not have to decompile the plugin to get the source code, this plugin has hosted the source code to Github, URL: https://github.com/DeepinMC/Glyph";
+    private static final String INFORMATION = "You do not have to decompile the plugin to get the source code, this plugin has push the source code to Github, URL: https://github.com/DeepinMC/Glyph";
     @SuppressWarnings("unused")
     private static final String INFORMATION_CN = "你不必反编译本插件来获取源码, 本插件已将源码托管到Github, URL: https://github.com/DeepinMC/Glyph";
 
@@ -140,6 +140,7 @@ public class Entry extends JavaPlugin {
             // add to manager
             this.glyphManager.addGlyph(name, glyph);
             this.glyphManager.addPattern(glyphPattern, glyph);
+            this.glyphManager.addMaterial(carveMaterial);
             Bukkit.getConsoleSender().sendMessage("§6[§eGlyph§6] §fLoad glyph " + name + "§f successfully");
         });
     }

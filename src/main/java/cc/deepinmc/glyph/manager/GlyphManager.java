@@ -3,6 +3,7 @@ package cc.deepinmc.glyph.manager;
 import cc.deepinmc.glyph.Entry;
 import cc.deepinmc.glyph.dto.EquipmentType;
 import cc.deepinmc.glyph.dto.Glyph;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
@@ -21,40 +22,17 @@ public final class GlyphManager {
 
     private Map<String, Glyph> glyphMap = Maps.newHashMap();
     private Map<String, Glyph> patternMap = Maps.newHashMap();
-
-    public boolean isPattern(ItemStack itemStack) {
-        if (itemStack == null || itemStack.getType() == Material.AIR) {
-            return false;
-        }
-        if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
-            return false;
-        }
-
-        return patternMap.keySet()
-                .stream()
-                .anyMatch(s -> s.equals(itemStack.getItemMeta().getDisplayName()));
-    }
+    private List<String> materialList = Lists.newArrayList();
 
     /**
-     * 获取图样所对应的雕纹, 如果无法获取则返回null
+     * 检查物品是否可以镶嵌该雕纹
      * <p>
-     * get the glyph corresponding to the pattern, or null if it is not available
+     * check whether a glyph can be inlay in the item
      *
-     * @param pattern the pattern
-     * @return {@link Glyph}
+     * @param itemStack the item
+     * @param glyph     the glyph
+     * @return true mean can be inlay
      */
-    public Glyph getPatternGlyph(String pattern) {
-        return patternMap.getOrDefault(pattern, null);
-    }
-
-    public Glyph getPatternGlyphByGlyphCache(String pattern) {
-        return glyphMap.values()
-                .stream()
-                .filter(glyph -> glyph.getGlyphPattern().equals(pattern))
-                .findFirst()
-                .orElse(null);
-    }
-
     public boolean canInlayGlyph(ItemStack itemStack, Glyph glyph) {
         if (itemStack == null || itemStack.getType() == Material.AIR) {
             return false;
@@ -97,8 +75,61 @@ public final class GlyphManager {
                 .anyMatch(glyph -> glyph.getDisplayName().equals(itemStack.getItemMeta().getDisplayName()));
     }
 
+    /**
+     * 检测一个物品是否为图样
+     * <p>
+     * check if an item is pattern
+     *
+     * @param itemStack the item
+     * @return true mean the item is a pattern
+     */
+    public boolean isPattern(ItemStack itemStack) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
+            return false;
+        }
+        if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
+            return false;
+        }
+
+        return patternMap.keySet()
+                .stream()
+                .anyMatch(s -> s.equals(itemStack.getItemMeta().getDisplayName()));
+    }
+
+    /**
+     * 检测一个物品是否为材料
+     * <p>
+     * check if an item is material
+     *
+     * @param itemStack the item
+     * @return true mean the item is a material
+     */
+    public boolean isMaterial(ItemStack itemStack) {
+        if (itemStack == null || itemStack.getType() == Material.AIR) {
+            return false;
+        }
+        if (!itemStack.hasItemMeta() || !itemStack.getItemMeta().hasDisplayName()) {
+            return false;
+        }
+        return materialList.contains(itemStack.getItemMeta().getDisplayName());
+    }
+
     public void addGlyph(String name, Glyph glyph) {
         glyphMap.put(Validate.notNull(name), Validate.notNull(glyph));
+    }
+
+    public void addPattern(String pattern, Glyph glyph) {
+        if (pattern == null || pattern.isEmpty() || pattern.equalsIgnoreCase("")) {
+            return;
+        }
+        patternMap.put(Validate.notNull(pattern), Validate.notNull(glyph));
+    }
+
+    public void addMaterial(String material) {
+        if (material == null || material.isEmpty() || material.equalsIgnoreCase("")) {
+            return;
+        }
+        this.materialList.add(Validate.notNull(material));
     }
 
     public void removeGlyph(String name) {
@@ -111,12 +142,12 @@ public final class GlyphManager {
         glyphMap.clear();
     }
 
-    public void addPattern(String pattern, Glyph glyph) {
-        patternMap.put(Validate.notNull(pattern), Validate.notNull(glyph));
-    }
-
     public void clearPattern() {
         patternMap.clear();
+    }
+
+    public void clearMaterial() {
+        materialList.clear();
     }
 
     /**
@@ -144,4 +175,24 @@ public final class GlyphManager {
                 .orElse(null);
     }
 
+
+    public Glyph getPatternGlyphByGlyphCache(String pattern) {
+        return glyphMap.values()
+                .stream()
+                .filter(glyph -> glyph.getGlyphPattern().equals(pattern))
+                .findFirst()
+                .orElse(null);
+    }
+
+    /**
+     * 获取图样所对应的雕纹, 如果无法获取则返回null
+     * <p>
+     * get the glyph corresponding to the pattern, or null if it is not available
+     *
+     * @param pattern the pattern
+     * @return {@link Glyph}
+     */
+    public Glyph getPatternGlyph(String pattern) {
+        return patternMap.getOrDefault(pattern, null);
+    }
 }
