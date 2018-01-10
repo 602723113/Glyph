@@ -2,6 +2,7 @@ package cc.deepinmc.glyph;
 
 import cc.deepinmc.glyph.command.CommandHandler;
 import cc.deepinmc.glyph.dto.*;
+import cc.deepinmc.glyph.listener.EntityDamageByEntityListener;
 import cc.deepinmc.glyph.listener.GUIListener;
 import cc.deepinmc.glyph.manager.GlyphManager;
 import cc.deepinmc.glyph.util.ConfigurationUtils;
@@ -76,6 +77,7 @@ public class Entry extends JavaPlugin {
         Bukkit.getPluginCommand("glyph").setExecutor(new CommandHandler());
         // register listener
         Bukkit.getPluginManager().registerEvents(new GUIListener(), this);
+        Bukkit.getPluginManager().registerEvents(new EntityDamageByEntityListener(), this);
 
         // initial glyph manager
         glyphManager = new GlyphManager();
