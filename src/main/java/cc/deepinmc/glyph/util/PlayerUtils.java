@@ -12,7 +12,7 @@ import org.bukkit.inventory.ItemStack;
 public final class PlayerUtils {
 
     /**
-     * 反射玩家手中的物品
+     * 反射获取玩家手中的物品
      * <br />
      * use reflect to get player hand item
      *

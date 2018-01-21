@@ -2,16 +2,16 @@ package cc.deepinmc.glyph.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 /**
  * @author Zoyn
  * @since 2018-01-01
  */
 @Data
+@NoArgsConstructor
 @AllArgsConstructor
-@RequiredArgsConstructor
-public class UserAttribute {
+public class PlayerAttribute {
 
     private double hit = 0;
     private double crit = 0;
@@ -19,6 +19,5 @@ public class UserAttribute {
     private double suckBlood = 0;
     private double dodge = 0;
     private double defense = 0;
-    private double counter = 0;
 
 }

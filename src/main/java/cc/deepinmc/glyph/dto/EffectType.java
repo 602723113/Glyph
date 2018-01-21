@@ -11,8 +11,7 @@ public enum EffectType {
     STRENGTH("力量"),
     SUCK_BLOOD("吸血"),
     DODGE("闪避"),
-    DEFENSE("防御"),
-    COUNTER("反击");
+    DEFENSE("防御");
 
     private String name;
 

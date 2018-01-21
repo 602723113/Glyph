@@ -5,6 +5,7 @@ import cc.deepinmc.glyph.dto.*;
 import cc.deepinmc.glyph.listener.EntityDamageByEntityListener;
 import cc.deepinmc.glyph.listener.GUIListener;
 import cc.deepinmc.glyph.manager.GlyphManager;
+import cc.deepinmc.glyph.manager.PlayerAttributeManager;
 import cc.deepinmc.glyph.util.ConfigurationUtils;
 import com.google.common.collect.Lists;
 import lombok.Getter;
@@ -45,9 +46,12 @@ public class Entry extends JavaPlugin {
     @Getter
     private GlyphManager glyphManager;
     @Getter
+    private PlayerAttributeManager attributeManager;
+    @Getter
     private InlayType inlayType;
 
     @Override
+    @SuppressWarnings("all")
     public void onEnable() {
         instance = this;
 
