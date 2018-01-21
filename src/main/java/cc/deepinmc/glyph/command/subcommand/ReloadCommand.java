@@ -28,8 +28,9 @@ public class ReloadCommand implements SubCommand {
         }
         Entry.getInstance().setLanguageConfig(ConfigurationUtils.loadYml(languageFile));
         Entry.getInstance().getGlyphManager().clearGlyph();
+        Entry.getInstance().getGlyphManager().clearMaterial();
+        Entry.getInstance().getGlyphManager().clearPattern();
         Entry.getInstance().loadGlyphs();
-
         sender.sendMessage(LanguageConfigManager.getStringByDefault("reload_success", "&6[&eGlyph&6] &a重载成功!", true));
     }
 }

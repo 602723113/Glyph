@@ -84,12 +84,17 @@ public class CarveGUI implements IGUI {
             event.setCancelled(true);
             return;
         }
-        // let the glyph can be move
-        if (Entry.getInstance().getGlyphManager().isGlyph(event.getCurrentItem()) ||
-                Entry.getInstance().getGlyphManager().isGlyph(event.getCursor())) {
+        // let the material can be move
+        if (Entry.getInstance().getGlyphManager().isMaterial(event.getCurrentItem()) || Entry.getInstance().getGlyphManager().isMaterial(event.getCursor())) {
             event.setCancelled(false);
             return;
         }
+        // let the pattern can be move
+        if (Entry.getInstance().getGlyphManager().isPattern(event.getCurrentItem()) || Entry.getInstance().getGlyphManager().isPattern(event.getCursor())) {
+            event.setCancelled(false);
+            return;
+        }
+
         Player player = (Player) event.getWhoClicked();
         if (event.getRawSlot() == 49) {
             ItemStack materialItem = event.getInventory().getItem(10);
@@ -105,13 +110,13 @@ public class CarveGUI implements IGUI {
                 return;
             }
 
-            // is right item?
-            if (Entry.getInstance().getGlyphManager().isMaterial(materialItem)) {
+            // check is right item
+            if (!Entry.getInstance().getGlyphManager().isMaterial(materialItem)) {
                 player.sendMessage(LanguageConfigManager.getStringByDefault("put_wrong_material", "&6[&eGlyph&6] &c请放入正确的材料!", true));
                 return;
             }
 
-            if (Entry.getInstance().getGlyphManager().isPattern(patternItem)) {
+            if (!Entry.getInstance().getGlyphManager().isPattern(patternItem)) {
                 player.sendMessage(LanguageConfigManager.getStringByDefault("put_wrong_pattern", "&6[&eGlyph&6] &c请放入正确的图样!", true));
                 return;
             }

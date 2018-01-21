@@ -122,11 +122,17 @@ public final class GlyphManager {
         if (pattern == null || pattern.isEmpty() || pattern.equalsIgnoreCase("")) {
             return;
         }
-        patternMap.put(Validate.notNull(pattern), Validate.notNull(glyph));
+        if (patternMap.containsKey(Validate.notNull(pattern))) {
+            return;
+        }
+        patternMap.put(pattern, Validate.notNull(glyph));
     }
 
     public void addMaterial(String material) {
         if (material == null || material.isEmpty() || material.equalsIgnoreCase("")) {
+            return;
+        }
+        if (this.materialList.contains(Validate.notNull(material))) {
             return;
         }
         this.materialList.add(Validate.notNull(material));
