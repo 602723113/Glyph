@@ -24,4 +24,24 @@ public class GlyphAttribute {
     public String toString() {
         return type.toString() + ":" + odds + ":" + value;
     }
+
+    public PlayerAttribute toPlayerAttribute() {
+        PlayerAttribute attribute = new PlayerAttribute();
+        switch (type) {
+            case HIT:
+                attribute.setHit(value);
+            case CRIT:
+                attribute.setCrit(value);
+            case STRENGTH:
+                attribute.setStrength(value);
+            case SUCK_BLOOD:
+                attribute.setSuckBlood(value);
+            case DODGE:
+                attribute.setDodge(value);
+            case DEFENSE:
+                attribute.setDefense(value);
+            default:
+                return attribute;
+        }
+    }
 }

@@ -25,6 +25,29 @@ public final class GlyphManager {
     private List<String> materialList = Lists.newArrayList();
 
     /**
+     * 获取物品上的所有雕纹
+     * <p>
+     * get all the glyphs on the item
+     *
+     * @param itemStack 物品
+     * @return {@link List}
+     */
+    public List<Glyph> getItemGlyphs(ItemStack itemStack) {
+        List<Glyph> glyphs = Lists.newArrayList();
+        if (itemStack != null && itemStack.getType() != Material.AIR && itemStack.hasItemMeta() && itemStack.getItemMeta().hasLore()) {
+            List<String> lore = itemStack.getItemMeta().getLore();
+            // foreach to check lore name
+            lore.forEach(s -> {
+                Glyph glyph = getGlyphByLoreName(s);
+                if (glyph != null) {
+                    glyphs.add(glyph);
+                }
+            });
+        }
+        return glyphs;
+    }
+
+    /**
      * 检查物品是否可以镶嵌该雕纹
      * <p>
      * check whether a glyph can be inlay in the item
@@ -164,6 +187,15 @@ public final class GlyphManager {
      */
     public Glyph getGlyphByName(String name) {
         return glyphMap.getOrDefault(Validate.notNull(name), null);
+    }
+
+    public Glyph getGlyphByLoreName(String loreName) {
+        Validate.notNull(loreName);
+        return glyphMap.values()
+                .stream()
+                .filter(glyph -> glyph.getLoreName().equals(loreName))
+                .findFirst()
+                .orElse(null);
     }
 
     /**
