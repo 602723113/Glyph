@@ -108,9 +108,9 @@ public class Entry extends JavaPlugin {
             String loreName = fileConfiguration.getString("Glyph.lore_name").replaceAll("&", "§");
             List<String> description = fileConfiguration.getStringList("Glyph.description");
             boolean canUseGlyphPattern = fileConfiguration.getBoolean("Glyph.can_use_glyph_pattern");
-            String carveMaterial = fileConfiguration.getString("Glyph.carve_material");
+            String carveMaterial = fileConfiguration.getString("Glyph.carve_material").replaceAll("&", "§");
             int carveMaterialAmount = fileConfiguration.getInt("Glyph.carve_material_amount");
-            String glyphPattern = fileConfiguration.getString("Glyph.glyph_pattern");
+            String glyphPattern = fileConfiguration.getString("Glyph.glyph_pattern").replaceAll("&", "§");
 
             // load glyphAttributes
             List<GlyphAttribute> glyphAttributes = Lists.newArrayList();
